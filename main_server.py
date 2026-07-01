@@ -180,4 +180,3 @@ async def student_login(email: str = Form(...), password: str = Form(...), devic
 
 @app.get("/", tags=["Root Control"])
 async def root_redirect():
-    
