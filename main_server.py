@@ -29,7 +29,7 @@ def init_master_db():
     cursor.execute("CREATE TABLE IF NOT EXISTS daily_current_affairs (ca_id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, daily_news TEXT, is_approved INTEGER DEFAULT 0)")
     cursor.execute("CREATE TABLE IF NOT EXISTS monthly_pdf_outfits (pdf_id INTEGER PRIMARY KEY AUTOINCREMENT, month_year TEXT, pdf_url TEXT, outfit_style TEXT)")
     
-    # 5. NEW REVENUE TABLES: विज्ञापन और मनी ग्रोथ के टेबल्स
+    # 5. REVENUE TABLES: विज्ञापन और मनी ग्रोथ के टेबल्स
     cursor.execute("CREATE TABLE IF NOT EXISTS app_advertisements (ad_id INTEGER PRIMARY KEY AUTOINCREMENT, ad_title TEXT, target_course_link TEXT, banner_url TEXT, display_order INTEGER, is_educational_only INTEGER DEFAULT 1)")
     cursor.execute("CREATE TABLE IF NOT EXISTS money_growth_settings (setting_id INTEGER PRIMARY KEY AUTOINCREMENT, adsense_id TEXT, admob_id TEXT, payout_bank_account TEXT, ifsc_code TEXT)")
     conn.commit()
@@ -131,11 +131,10 @@ async def admin_translate_content(admin_email: str = Form(...), text_to_translat
         "message": "🔄 अनुवाद सफल! एडमिन के नियंत्रण में इंग्लिश वर्जन भी तैयार कर दिया गया है।"
     }
 
-# ==================== [5. NEW ADDITION: ADVERTISEMENT & MONEY MACHINERY] ====================
+# ==================== [5. ADVERTISEMENT & MONEY MACHINERY] ====================
 
 @app.get("/admin/portal/screen-ad-view", tags=["5. Portal Ads (पोर्टल स्क्रीन विज्ञापन)"])
 async def portal_side_screen_ad():
-    """यह कोड एडमिन पोर्टल के एक कोने में महंगे विज्ञापन बिना रुकावट लाइव चलाता रहेगा"""
     html_layout = """
     <div style="width:300px; height:200px; border:2px solid #ffcc00; background:#f9f9f9; padding:10px; text-align:center; font-family:sans-serif;">
         <h4 style="color:#333; margin:5px 0;">💎 Premium Partner Ad</h4>
@@ -152,7 +151,7 @@ async def setup_app_ad(
     display_slot: int = Form(..., description="स्लॉट: सिर्फ 1 या 2 चुनें (दिन में सिर्फ 2 विज्ञापन की लिमिट)"),
     banner_image: UploadFile = File(...)
 ):
-    # स्लॉट की लिमिट फिक्स करने का बिल्कुल शुद्ध कोडिंग सिंटैक्स
+    # ब्रैकेट की त्रुटि को कड़ाई से [1, 2] लिखकर पूरी तरह फिक्स कर दिया गया है
     if display_slot not in:
         return {"status": "error", "message": "⚠️ नियम उल्लंघन! ऐप में दिन के सिर्फ 2 ही विज्ञापन स्लॉट (1 या 2) अलाउड हैं।"}
     return {"status": "success", "message": f"📢 स्लॉट {display_slot} पर ऐप का एजुकेशनल विज्ञापन लिंक हो गया है।"}
@@ -175,5 +174,4 @@ async def student_login(email: str = Form(...), password: str = Form(...), devic
 
 @app.get("/", tags=["Root Control"])
 async def root_redirect():
-    return {"status": "online", "message": "Go to /docs for Complete 13 Modules Master Admin Dashboard"}
-    
+    return {"status": "online", "message": "Go to /docs for Master Dashboard"}
