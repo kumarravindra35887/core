@@ -29,7 +29,7 @@ def init_master_db():
     cursor.execute("CREATE TABLE IF NOT EXISTS daily_current_affairs (ca_id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, daily_news TEXT, is_approved INTEGER DEFAULT 0)")
     cursor.execute("CREATE TABLE IF NOT EXISTS monthly_pdf_outfits (pdf_id INTEGER PRIMARY KEY AUTOINCREMENT, month_year TEXT, pdf_url TEXT, outfit_style TEXT)")
     
-    # NEW REVENUE TABLES: विज्ञापन और मनी ग्रोथ के टेबल्स
+    # REVENUE TABLES: विज्ञापन और मनी ग्रोथ के टेबल्स
     cursor.execute("CREATE TABLE IF NOT EXISTS app_advertisements (ad_id INTEGER PRIMARY KEY AUTOINCREMENT, ad_title TEXT, target_course_link TEXT, banner_url TEXT, display_order INTEGER, is_educational_only INTEGER DEFAULT 1)")
     cursor.execute("CREATE TABLE IF NOT EXISTS money_growth_settings (setting_id INTEGER PRIMARY KEY AUTOINCREMENT, adsense_id TEXT, admob_id TEXT, payout_bank_account TEXT, ifsc_code TEXT)")
     conn.commit()
@@ -56,7 +56,7 @@ async def ai_generate_mains_notes(
         response = model.generate_content(prompt)
         final_notes = response.text
     except Exception:
-        final_notes = f"सफलता! '{syllabus_topic}' का मेंस नोट्स ड्राफ्ट模ड में तैयार है।"
+        final_notes = f"सफलता! '{syllabus_topic}' का मेंस नोट्स ड्राफ्ट मोड में तैयार है।"
 
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
@@ -159,20 +159,18 @@ async def configure_money_machinery(
     bank_account_number: str = Form(...),
     bank_ifsc_code: str = Form(...)
 ):
-    return {"status": "success", "message": "💰 मनी ग्रोथ और बैंक खाता 100% लिंक हो गया है। विज्ञापन की कमाई सीधे इसी खाते में आएगी।"}
+    return {"status": "success", "message": "💰 मनी GROWTH और बैंक खाता 100% लिंक हो गया है। विज्ञापन की कमाई सीधे इसी खाते में आएगी।"}
 
-# ==================== [🔥 NEW ADDITION: लाइव पोर्टल स्क्रीन विज्ञापन विंडो 🔥] ====================
+# ==================== [LIVE PORTAL SCREEN AD WINDOW] ====================
 
 @app.get("/admin/portal/screen-ad-view", tags=["9. Live Portal Ads (पोर्टल पर विज्ञापन चलना)"])
 async def portal_side_screen_ad():
-    """यह जादुई बटन दबाते ही एडमिन पोर्टल के एक कोने में महंगे विज्ञापन वाली टीवी स्क्रीन खुल जाएगी जो बिना रुकावट काम के साथ लाइव चलेगी"""
     html_layout = """
     <!DOCTYPE html>
     <html>
-    <head>
-        <title>Cyclone Premium Ad Window</title>
-    </head>
+    <head><title>Cyclone Premium Ad Window</title></head>
     <body style="margin:0; padding:10px; background:#f0f2f5; font-family:sans-serif; display:flex; justify-content:center;">
         <div style="width:100%; max-width:360px; background:#ffffff; border:3px solid #0056b3; border-radius:12px; box-shadow: 0px 4px 15px rgba(0,0,0,0.15); overflow:hidden; text-align:center;">
-            <!-- ऊपरी पट्टी -->
+            <div style="background:#0056b3; color:#ffffff; padding:10px; font-weight:bold; font-size:16px;">💎 CYCLONE PREMIUM PARTNER AD</div>
+            <div style="padding:15px;">
     
