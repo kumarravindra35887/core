@@ -1,15 +1,18 @@
 import os
 import sqlite3
-from fastapi import FastAPI, Form, UploadFile, File
+from fastapi import FastAPI, Form
 import google.generativeai as genai
 
 app = FastAPI(title="CYCLONE STAR PLUS - Admin Portal", version="2026.10.0")
+
+# वर्सेल के सर्वरलेस नियमों के अनुसार डेटाबेस का रास्ता बिल्कुल फिक्स करना
+DB_PATH = "/tmp/cyclone_star_pro_final.db"
 
 if "YOUR_FREE_GEMINI_API_KEY" in os.environ:
     genai.configure(api_key=os.environ["YOUR_FREE_GEMINI_API_KEY"])
 
 def init_master_db():
-    conn = sqlite3.connect("/tmp/cyclone_star_pro_final.db")
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute("CREATE TABLE IF NOT EXISTS users (email TEXT PRIMARY KEY, password TEXT, is_active INTEGER DEFAULT 0, device_id TEXT DEFAULT '')")
     cursor.execute("CREATE TABLE IF NOT EXISTS segment_control (segment_name TEXT PRIMARY KEY, is_allowed INTEGER DEFAULT 0)")
@@ -18,6 +21,7 @@ def init_master_db():
     conn.commit()
     conn.close()
 
+# सर्वर चालू होते ही डेटाबेस सुरक्षित जगह पर बनेगा
 init_master_db()
 
 @app.post("/auth/login", tags=["Student API"])
