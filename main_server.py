@@ -1,3 +1,4 @@
+import portal_website
 import portal_layout
 import os
 import sqlite3
@@ -11,6 +12,8 @@ app = FastAPI(
     title="CYCLONE STAR PLUS - 2026 Complete Master & Revenue Dashboard", 
     version="2026.13.FINAL_ALL_IN_ONE_TOTAL",
     description="UPSC/UPPSC/RAS Mains AI Notes Maker, Current Affairs Compiler, Translation Engine & Complete Revenue Sync"
+docs_url="/docs-core-system",
+    redoc_url=None
 )
 portal_layout.apply_custom_dashboard_layout(app)
 
@@ -89,7 +92,8 @@ async def student_login(email: str = Form(...), password: str = Form(...), devic
 # ==================== [SECTION 2: नई रेवेन्यू फाइल का कनेक्शन] ====================
 app.include_router(revenue_control.router)
 
-@app.get("/", tags=["Root Control"])
+@app.get("/", include_in_schema=False)
 async def root_redirect():
-    return {"status": "online", "message": "Go to /docs for Master Dashboard"}
+    return portal_website.get_coaching_website_html()
+
                                
