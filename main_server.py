@@ -12,6 +12,7 @@ app = FastAPI(
     version="2026.13.FINAL_ALL_IN_ONE_TOTAL",
     description="UPSC/UPPSC/RAS Mains AI Notes Maker, Current Affairs Compiler, Translation Engine & Complete Revenue Sync"
 )
+portal_layout.apply_custom_dashboard_layout(app)
 
 DB_PATH = "/tmp/cyclone_star_pro_final.db"
 
@@ -33,7 +34,7 @@ def init_master_db():
     conn.close()
 
 init_master_db()
-portal_layout.apply_custom_dashboard_layout(app)
+
 
 # ==================== [SECTION 1: पुराने सारे 13 मॉड्यूल्स (सुरक्षित)] ====================
 
