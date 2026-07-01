@@ -1,3 +1,4 @@
+import portal_layout
 import os
 import sqlite3
 from fastapi import FastAPI, Form, UploadFile, File, HTTPException
@@ -32,6 +33,7 @@ def init_master_db():
     conn.close()
 
 init_master_db()
+portal_layout.apply_custom_dashboard_layout(app)
 
 # ==================== [SECTION 1: पुराने सारे 13 मॉड्यूल्स (सुरक्षित)] ====================
 
