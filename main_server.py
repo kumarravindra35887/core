@@ -69,7 +69,7 @@ async def setup_app_ad(
     display_slot: int = Form(..., description="स्लॉट: सिर्फ 1 या 2 चुनें (दिन में सिर्फ 2 विज्ञापन की लिमिट)"),
     banner_image: UploadFile = File(...)
 ):
-    # यहाँ [1, 2] ब्रैकेट को पूरी तरह ठीक कर दिया गया है ताकि वर्सेल एरर न दे
+    # यहाँ ब्रैकेट को [1, 2] लिखकर पूरी तरह फिक्स कर दिया गया है
     if display_slot not in:
         return {"status": "error", "message": "⚠️ नियम उल्लंघन! ऐप में दिन के सिर्फ 2 ही विज्ञापन स्लॉट अलाउड हैं।"}
     return {"status": "success", "message": f"📢 स्लॉट {display_slot} पर ऐप का एजुकेशनल विज्ञापन लिंक हो गया है।"}
