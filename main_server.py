@@ -139,7 +139,7 @@ async def admin_translate_content(admin_email: str = Form(...), text_to_translat
         "message": "🔄 अनुवाद सफल! एडमिन के नियंत्रण में इंग्लिश वर्जन भी तैयार कर दिया गया है।"
     }
 
-# ==================== [5. ADVERTISEMENT & MONEY MACHINERY] ====================
+# ==================== [5. ADVERTISEMENT & MONEY MACHINERY (कड़े नियम से जोड़ी गई नई लाइनें)] ====================
 
 @app.post("/admin/portal/setup-app-educational-ad", tags=["5. App Educational Ads (ऐप विज्ञापन)"])
 async def setup_app_ad(
@@ -148,8 +148,12 @@ async def setup_app_ad(
     target_course_link: str = Form(...),
     display_slot: int = Form(..., description="स्लॉट: सिर्फ 1 या 2 चुनें (दिन में सिर्फ 2 विज्ञापन की लिमिट)")
 ):
-    if display_slot < 1 or display_slot > 2:
-        return {"status": "error", "message": "⚠️ नियम उल्लंघन! ऐप में दिन के सिर्फ 2 ही विज्ञापन स्लॉट (1 या 2) अलाउड हैं।"}
+    # ब्रैकेट हटाकर संख्यात्मक नियम लगाया है ताकि चैट बॉक्स इसे काट न सके
+    if display_slot < 1:
+        return {"status": "error", "message": "⚠️ स्लॉट नंबर 1 से छोटा नहीं हो सकता।"}
+    if display_slot > 2:
+        return {"status": "error", "message": "⚠️ नियम उल्लंघन! ऐप में दिन के अधिकतम 2 ही विज्ञापन स्लॉट अलाउड हैं।"}
+    
     return {"status": "success", "message": f"📢 स्लॉट {display_slot} पर ऐप का एजुकेशनल विज्ञापन लिंक हो गया है।"}
 
 @app.post("/admin/portal/money-growth-setup", tags=["6. Money Growth & Bank Setup (कमाई का खाता)"])
@@ -175,8 +179,4 @@ async def portal_side_screen_ad():
 # ==================== [6. STUDENT APPLICATION LOGIN SYNC] ====================
 
 @app.post("/auth/login", tags=["8. Student Security & Sync"])
-async def student_login(email: str = Form(...), password: str = Form(...), device_id: str = Form(...)):
-    return {"role": "USER", "message": "लॉगिन सफल"}
-
-@app.get("/", tags=["Root Control"])
-async def root_redirect():
+    
