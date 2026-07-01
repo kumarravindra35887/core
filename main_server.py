@@ -1,3 +1,4 @@
+import payment_control
 import os
 import sqlite3
 from fastapi import FastAPI, Form, UploadFile, File, HTTPException
@@ -95,6 +96,7 @@ async def student_login(email: str = Form(...), password: str = Form(...), devic
 
 # ==================== [SECTION 2: रेवेन्यू फाइल का स्वतंत्र कनेक्शन] ====================
 app.include_router(revenue_control.router)
+app.include_router(payment_control.router)
 
 # ==================== [SECTION 3: एकीकृत मास्टर कंट्रोल रूम वेबसाइट फ्रंट-पेज] ====================
 @app.get("/", include_in_schema=False)
