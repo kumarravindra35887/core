@@ -48,8 +48,15 @@ async def portal_side_screen_ad():
         <h4 style="color:#0056b3; margin:5px 0; font-size:14px; letter-spacing:1px;">💎 CYCLONE PREMIUM PARTNER AD</h4>
         <div style="width:100%; height:120px; background:linear-gradient(135deg, #eef2f3, #8e9eab); border:1px dashed #0056b3; border-radius:6px; display:flex; flex-direction:column; justify-content:center; align-items:center; margin:10px 0;">
             <span style="font-size:28px;">💰</span>
-            <h5 style="color:#222; margin:2px 0; font-size:12px;">[High-Paying Corporate Ad Slot Active]</h5>
-            <p style="color:#555; font-size:10px; margin:2px 0; padding:0 5px;">Google AdSense ID Verified. Real earnings routing is active.</p>
+            <!-- असली गूगल एडसेंस लाइव कोड -->
+            <script async src="https://googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6111045760846670" crossorigin="anonymous"></script>
+            <ins class="adsbygoogle"
+                 style="display:inline-block;width:300px;height:250px"
+                 data-ad-client="ca-pub-6111045760846670"
+                 data-ad-slot="2229681273"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
         </div>
         <p style="font-size:9px; color:#999; margin:0;">🔒 Secured Revenue Engine | Optimized Layout</p>
     </div>
