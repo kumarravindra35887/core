@@ -1,3 +1,4 @@
+import revenue_control
 import os
 import sqlite3
 from fastapi import FastAPI, Form, UploadFile, File, HTTPException
@@ -112,4 +113,5 @@ async def student_login(email: str = Form(...), password: str = Form(...), devic
 @app.get("/", tags=["Root Control"])
 async def root_redirect():
     return {"status": "online", "message": "Go to /docs for Master Dashboard"}
+    app.include_router(revenue_control.router)
     
