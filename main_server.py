@@ -9,7 +9,7 @@ if "YOUR_FREE_GEMINI_API_KEY" in os.environ:
     genai.configure(api_key=os.environ["YOUR_FREE_GEMINI_API_KEY"])
 
 def init_master_db():
-    conn = sqlite3.connect("cyclone_star_pro_final.db")
+    conn = sqlite3.connect("/tmp/cyclone_star_pro_final.db")
     cursor = conn.cursor()
     cursor.execute("CREATE TABLE IF NOT EXISTS users (email TEXT PRIMARY KEY, password TEXT, is_active INTEGER DEFAULT 0, device_id TEXT DEFAULT '')")
     cursor.execute("CREATE TABLE IF NOT EXISTS segment_control (segment_name TEXT PRIMARY KEY, is_allowed INTEGER DEFAULT 0)")
