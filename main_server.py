@@ -56,7 +56,7 @@ async def ai_generate_mains_notes(
         response = model.generate_content(prompt)
         final_notes = response.text
     except Exception:
-        final_notes = f"सफलता! '{syllabus_topic}' का मेंस नोट्स ड्राफ्ट मोड में तैयार है।"
+        final_notes = f"सफलता! '{syllabus_topic}' का मेंस नोट्स ड्राफ्ट模ड में तैयार है।"
 
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
@@ -138,32 +138,20 @@ async def add_app_advertisement(title: str = Form(...), banner_image: UploadFile
 async def student_login(email: str = Form(...), password: str = Form(...), device_id: str = Form(...)):
     return {"role": "USER", "message": "लॉगिन सफल", "sync_status": "Connected to core-jv5y"}
 
-# ==================== [SECTION 2: विज्ञापन और मनी GROWTH (नया एडिशन)] ====================
+# ==================== [SECTION 2: विज्ञापन और मनी GROWTH (सुरक्षित पुराने बटन)] ====================
 
-@app.get("/admin/portal/screen-ad-view", tags=["7. Portal Side Ads (पोर्टल स्क्रीन विज्ञापन)"])
-async def portal_side_screen_ad():
-    """यह कोड एडमिन पोर्टल के एक कोने में महंगे विज्ञापन बिना रुकावट लाइव चलाता रहेगा"""
-    html_layout = """
-    <div style="width:300px; height:200px; border:2px solid #ffcc00; background:#f9f9f9; padding:10px; text-align:center; font-family:sans-serif;">
-        <h4 style="color:#333; margin:5px 0;">💎 Premium Partner Ad</h4>
-        <p style="color:#666; font-size:12px;">[High-Paying Corporate Ad Running Non-Stop on Side Screen]</p>
-    </div>
-    """
-    return HTMLResponse(content=html_layout, status_code=200)
-
-@app.post("/admin/portal/setup-app-educational-ad", tags=["8. App Educational Ads (ऐप विज्ञापन)"])
+@app.post("/admin/portal/setup-app-educational-ad", tags=["7. App Educational Ads (ऐप विज्ञापन)"])
 async def setup_app_ad(
     admin_email: str = Form(...),
     ad_title: str = Form(..., description="केवल एजुकेशनल विज्ञापन का नाम"),
     target_course_link: str = Form(...),
     display_slot: int = Form(..., description="स्लॉट: सिर्फ 1 या 2 चुनें (दिन में सिर्फ 2 विज्ञापन की लिमिट)")
 ):
-    # यहाँ बिना किसी गायब होने वाले ब्रैकेट के सीधा कड़ा कोडिंग नियम लागू किया है
     if display_slot < 1 or display_slot > 2:
-        return {"status": "error", "message": "⚠️ नियम उल्लंघन! ऐप में दिन के सिर्फ 2 ही विज्ञापन स्लॉट (1 या 2) अलाउड हैं।"}
+        return {"status": "error", "message": "⚠️ नियम उल्लंघन! ऐप में दिन के सिर्फ 2 ही विज्ञापन स्लॉट अलाउड हैं।"}
     return {"status": "success", "message": f"📢 स्लॉट {display_slot} पर ऐप का एजुकेशनल विज्ञापन लिंक हो गया है।"}
 
-@app.post("/admin/portal/money-growth-setup", tags=["9. Money Growth & Bank Setup (कमाई का खाता)"])
+@app.post("/admin/portal/money-growth-setup", tags=["8. Money Growth & Bank Setup (कमाई का खाता)"])
 async def configure_money_machinery(
     admin_email: str = Form(...),
     google_adsense_publisher_id: str = Form(...),
@@ -173,7 +161,18 @@ async def configure_money_machinery(
 ):
     return {"status": "success", "message": "💰 मनी ग्रोथ और बैंक खाता 100% लिंक हो गया है। विज्ञापन की कमाई सीधे इसी खाते में आएगी।"}
 
-@app.get("/", tags=["Root Control"])
-async def root_redirect():
-    return {"status": "online", "message": "Go to /docs for Complete 13 Modules Master Admin Dashboard"}
+# ==================== [🔥 NEW ADDITION: लाइव पोर्टल स्क्रीन विज्ञापन विंडो 🔥] ====================
+
+@app.get("/admin/portal/screen-ad-view", tags=["9. Live Portal Ads (पोर्टल पर विज्ञापन चलना)"])
+async def portal_side_screen_ad():
+    """यह जादुई बटन दबाते ही एडमिन पोर्टल के एक कोने में महंगे विज्ञापन वाली टीवी स्क्रीन खुल जाएगी जो बिना रुकावट काम के साथ लाइव चलेगी"""
+    html_layout = """
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Cyclone Premium Ad Window</title>
+    </head>
+    <body style="margin:0; padding:10px; background:#f0f2f5; font-family:sans-serif; display:flex; justify-content:center;">
+        <div style="width:100%; max-width:360px; background:#ffffff; border:3px solid #0056b3; border-radius:12px; box-shadow: 0px 4px 15px rgba(0,0,0,0.15); overflow:hidden; text-align:center;">
+            <!-- ऊपरी पट्टी -->
     
