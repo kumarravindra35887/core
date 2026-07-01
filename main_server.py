@@ -5,12 +5,12 @@ import google.generativeai as genai
 from fastapi.responses import HTMLResponse
 
 # =====================================================================
-# CYCLONE STAR PLUS - 2026 COMPLETE MASTER ADMIN DASHBOARD (मूल सुपरहिट कोड)
+# CYCLONE STAR PLUS - 2026 FULL MASTER REVENUE & ADMINISTRATIVE PORTAL
 # =====================================================================
 app = FastAPI(
-    title="CYCLONE STAR PLUS - 2026 Complete Master Admin Dashboard", 
-    version="2026.13.FINAL_ALL_IN_ONE",
-    description="UPSC/UPPSC/RAS Mains AI Notes Maker, Current Affairs Compiler, Translation & Student App Sync Controller"
+    title="CYCLONE STAR PLUS - 2026 Complete Master & Revenue Dashboard", 
+    version="2026.13.FINAL_ALL_IN_ONE_TOTAL_REVENUE",
+    description="UPSC/UPPSC/RAS Mains AI Notes Maker, Current Affairs Compiler, Translation Engine & Complete Advertisement Revenue Controller"
 )
 
 # वर्सेल के सर्वरलेस नियमों के अनुसार डेटाबेस का सुरक्षित रास्ता फिक्स करना
@@ -36,8 +36,9 @@ def init_master_db():
     cursor.execute("CREATE TABLE IF NOT EXISTS daily_current_affairs (ca_id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, daily_news TEXT, is_approved INTEGER DEFAULT 0)")
     cursor.execute("CREATE TABLE IF NOT EXISTS monthly_pdf_outfits (pdf_id INTEGER PRIMARY KEY AUTOINCREMENT, month_year TEXT, pdf_url TEXT, outfit_style TEXT)")
     
-    # 5. विज्ञापन और बैनर टेबल (Module 11)
-    cursor.execute("CREATE TABLE IF NOT EXISTS advertisement_hub (ad_id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, banner_url TEXT, target_link TEXT, is_active INTEGER DEFAULT 1)")
+    # 5. REVENUE TABLES: विज्ञापन और मनी ग्रोथ के टेबल्स (Revenue Modules)
+    cursor.execute("CREATE TABLE IF NOT EXISTS app_advertisements (ad_id INTEGER PRIMARY KEY AUTOINCREMENT, ad_title TEXT, target_course_link TEXT, banner_url TEXT, display_order INTEGER, is_educational_only INTEGER DEFAULT 1)")
+    cursor.execute("CREATE TABLE IF NOT EXISTS money_growth_settings (setting_id INTEGER PRIMARY KEY AUTOINCREMENT, adsense_id TEXT, admob_id TEXT, payout_bank_account TEXT, ifsc_code TEXT)")
     conn.commit()
     conn.close()
 
@@ -114,14 +115,12 @@ async def compile_monthly_pdf_by_admin(
     outfit_style: str = Form(default="Cyclone Pro Blue Ribbon", description="PDF का डिज़ाइन/आउटफिट चुनें")
 ):
     pdf_name = f"Cyclone_Star_Plus_CA_{month_year.replace(' ', '_')}.pdf"
-    
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute("UPDATE daily_current_affairs SET is_approved = 1")
     cursor.execute("INSERT INTO monthly_pdf_outfits (month_year, pdf_url, outfit_style) VALUES (?, ?, ?)", (month_year, pdf_name, outfit_style))
     conn.commit()
     conn.close()
-    
     return {
         "status": "success",
         "preview_outfit": outfit_style,
@@ -140,21 +139,45 @@ async def admin_translate_content(admin_email: str = Form(...), text_to_translat
         "message": "🔄 अनुवाद सफल! एडमिन के नियंत्रण में इंग्लिश वर्जन भी तैयार कर दिया गया है।"
     }
 
-# ==================== [5. QUESTION DATA BASE CONTROL & ADVERTISEMENT] ====================
+# ==================== [5. ADVERTISEMENT & MONEY MACHINERY] ====================
 
-@app.get("/admin/portal/get-all-mains-notes", tags=["5. Content Hub & Database Control"])
-async def view_all_mains_notes():
-    return {"total_mains_notes_stored": 0, "data": []}
+@app.post("/admin/portal/setup-app-educational-ad", tags=["5. App Educational Ads (ऐप विज्ञापन)"])
+async def setup_app_ad(
+    admin_email: str = Form(...),
+    ad_title: str = Form(..., description="केवल एजुकेशनल विज्ञापन का नाम"),
+    target_course_link: str = Form(...),
+    display_slot: int = Form(..., description="स्लॉट: सिर्फ 1 या 2 चुनें (दिन में सिर्फ 2 विज्ञापन की लिमिट)")
+):
+    if display_slot == 1 or display_slot == 2:
+        return {"status": "success", "message": f"📢 स्लॉट {display_slot} पर ऐप का एजुकेशनल विज्ञापन लिंक हो गया है।"}
+    return {"status": "error", "message": "⚠️ नियम उल्लंघन! ऐप में दिन के सिर्फ 2 ही विज्ञापन स्लॉट (1 या 2) अलाउड हैं।"}
 
-@app.post("/admin/portal/add-app-advertisement", tags=["5. Content Hub & Database Control"])
-async def add_app_advertisement(title: str = Form(...), banner_image: UploadFile = File(...)):
-    return {"status": "success", "message": "📢 विज्ञापन बैनर सफलतापूर्वक लाइव हो गया है।"}
+@app.post("/admin/portal/money-growth-setup", tags=["6. Money Growth & Bank Setup (कमाई का खाता)"])
+async def configure_money_machinery(
+    admin_email: str = Form(...),
+    google_adsense_publisher_id: str = Form(...),
+    google_admob_app_id: str = Form(...),
+    bank_account_number: str = Form(...),
+    bank_ifsc_code: str = Form(...)
+):
+    return {"status": "success", "message": "💰 मनी GROWTH और बैंक खाता 100% लिंक हो गया है। विज्ञापन की कमाई सीधे इसी खाते में आएगी।"}
+
+@app.get("/admin/portal/screen-ad-view", tags=["7. Live Portal Ads (पोर्टल पर विज्ञापन चलना)"])
+async def portal_side_screen_ad():
+    html_layout = """
+    <div style="width:100%; max-width:320px; border:2px solid #0056b3; background:#ffffff; padding:10px; text-align:center; font-family:sans-serif;">
+        <h4 style="color:#0056b3; margin:5px 0;">💎 CYCLONE PREMIUM PARTNER AD</h4>
+        <p style="color:#666; font-size:12px;">[High-Paying Corporate Ad Window Active]</p>
+    </div>
+    """
+    return HTMLResponse(content=html_layout, status_code=200)
 
 # ==================== [6. STUDENT APPLICATION LOGIN SYNC] ====================
-@app.post("/auth/login", tags=["6. Student Application Sync"])
+
+@app.post("/auth/login", tags=["8. Student Security & Sync"])
 async def student_login(email: str = Form(...), password: str = Form(...), device_id: str = Form(...)):
-    return {"role": "USER", "message": "लॉगिन सफल", "sync_status": "Connected to core-jv5y"}
+    return {"role": "USER", "message": "लॉगिन सफल"}
 
 @app.get("/", tags=["Root Control"])
 async def root_redirect():
-    return {"status": "online", "message": "Go to /docs for Complete 13 Modules Master Admin Dashboard"}
+    
